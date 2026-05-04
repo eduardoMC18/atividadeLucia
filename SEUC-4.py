@@ -1,12 +1,5 @@
 # from rich import print
 
-# numLeituras = int(input("Quantidade de leituras que serão realizadas no seu turno: "))
-# somaLeituras = 0
-# zonaVermelha = 0
-# menorLeitura = 999999
-# leiturasVerdes = 0
-# leiturasRealizadas = 0
-
 def menu_leituras():
     numLeituras = int(input("Quantidade de leituras que serão realizadas no seu turno: "))
     somaLeituras = 0
@@ -63,9 +56,12 @@ def menu_leituras():
 
 
 def login():
+    u1 = ['Eduardo Martins', 1234, 0]
+    u2 = ['Gustavo De Oliveira', 4321, 0]
+    u3 = ['Enzo Carletinhos', 5678, 0]
     nome = input("Digite o nome do usuario: ")
     senha = int(input("Informe a senha: "))
-    if nome == "Delta-9" and senha == 1234:
+    if (nome == u1[0] or nome == u2[0] or nome == u3[0]) and (senha == u1[1] or senha == u2[1] or senha == u3[1]):
         print("Entrando...")
         menu_leituras()
     else:
