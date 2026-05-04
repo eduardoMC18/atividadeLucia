@@ -10,9 +10,7 @@ menor = 0
 maior = 0
 
 while i < num_de_leituras:
-    pressão = float(input("digite a pressão:"))
-    while pressão<=124.8:   
-        pressão = float(input("digite a pressão:"))    
+    pressão = float(input("digite a pressão:")) 
     if pressão <= 150 and pressão>124.8:
         pressão_ajustada = pressão*0.96
             
@@ -31,7 +29,7 @@ while i < num_de_leituras:
 
     if 180>=pressão_ajustada>=120:
         zona_verde+=1
-    elif 250>=pressão_ajustada>180:
+    elif 250>=pressão_ajustada>180 and pressão_ajustada<120:
         zona_amarela+=1
     elif pressão_ajustada>250:
         zona_vermelha+=1
@@ -55,4 +53,3 @@ print(f"\nRELAÓRIO")
 print(f"{menor:.2f}")
 print(f"{media_ajustadas:.2f}")
 print(f"{porcentagem_verde:.2f}%")
-
