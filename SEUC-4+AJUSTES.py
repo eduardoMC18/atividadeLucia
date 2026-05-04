@@ -11,9 +11,8 @@ maior = 0
 
 while i < num_de_leituras:
     pressão = float(input("digite a pressão:"))
-    if pressão<=124.8:
-        pressão = float(input("digite a pressão:"))
-        i-=1
+    while pressão<=124.8:   
+        pressão = float(input("digite a pressão:"))    
     if pressão <= 150 and pressão>124.8:
         pressão_ajustada = pressão*0.96
             
@@ -44,6 +43,7 @@ while i < num_de_leituras:
         print("protocolo de travamento")
         percent_de_leituras=(i/num_de_leituras)*100
         print(f"{percent_de_leituras:.2f}%")
+        print(i)
         break
             
     
@@ -55,3 +55,4 @@ print(f"\nRELAÓRIO")
 print(f"{menor:.2f}")
 print(f"{media_ajustadas:.2f}")
 print(f"{porcentagem_verde:.2f}%")
+
