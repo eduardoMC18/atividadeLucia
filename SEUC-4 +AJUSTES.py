@@ -1,5 +1,3 @@
-# from rich import print
-
 def menu_leituras(): 
     num_de_leituras = int(input("\nDigite o num de leituras:"))
     i = 0
@@ -16,10 +14,10 @@ def menu_leituras():
         pressão = float(input("\nDigite a pressão:")) 
         if pressão < 120:
             pressão_ajustada = pressão 
-        if pressão <= 150 and pressão>=120:
+        elif pressão <= 150 and pressão>=120:
             pressão_ajustada = pressão*0.96
                 
-        elif pressão > 150:
+        else:
             pressão_ajustada = pressão*1.08
         if i == 0:
             menor=pressão_ajustada
@@ -34,9 +32,9 @@ def menu_leituras():
         print(f"\nLEITURA {i}/{num_de_leituras}")
         
         if pressão<120:
-            print(f"A pressão {pressão:.2f} continuará sendo {pressão_ajustada:.2f}")
+            print(f"A pressão de {pressão:.2f} UPCs continuará sendo {pressão_ajustada:.2f} UPCs")
         else:
-            print(f"A pressão {pressão:.2f} foi ajustada para {pressão_ajustada:.2f}")
+            print(f"A pressão de {pressão:.2f} UPCs foi ajustada para {pressão_ajustada:.2f} UPCs")
 
         if 180>=pressão_ajustada>=120:
             zona_verde+=1
@@ -49,7 +47,7 @@ def menu_leituras():
         elif pressão_ajustada>250:
             zona_vermelha+=1
             consecutivas_vermelha+=1
-            print(f"ALERTA: pressão {pressão_ajustada:.2f} na ZONA VERMELHA")
+            print(f"ALERTA: pressão {pressão_ajustada:.2f} UPCs na ZONA VERMELHA")
 
         soma_ajustadas+= pressão_ajustada 
 
@@ -60,30 +58,77 @@ def menu_leituras():
             print(f"O número de leituras realizadas foi {i}") 
             break
 
-    media_ajustadas = soma_ajustadas/i
-    porcentagem_verde=(zona_verde/i)*100
-    print(f"\nRELATÓRIO")
-    print(f"Foram concluídas {i} leituras de um total de {num_de_leituras} planejadas.")
-    print(f"A menor pressão após o ajuste foi de {menor:.2f}")
-    print(f"A maior pressão após o ajuste foi de {maior:.2f}")
-    print(f"A média das pressões ajustadas foi de {media_ajustadas:.2f}")
-    print(f"A porcentagem de leituras verdes foi de {porcentagem_verde:.2f}%\n")
+    if i > 0:
+        media_ajustadas = soma_ajustadas/i
+        porcentagem_verde=(zona_verde/i)*100
+        print(f"\nRELATÓRIO")
+        print(f"Foram concluídas {i} leituras de um total de {num_de_leituras} planejadas.")
+        print(f"A menor pressão após o ajuste foi de {menor:.2f} UPCs")
+        print(f"A maior pressão após o ajuste foi de {maior:.2f} UPCs")
+        print(f"A média das pressões ajustadas foi de {media_ajustadas:.2f} UPCs")
+        print(f"A porcentagem de leituras verdes foi de {porcentagem_verde:.2f}%\n")
+        
+    else:
+        print(f"\nNenhuma leitura foi realizada para gerar o relatório.\n")
+    continuar()
+
+def continuar():
+    print(f"Digite 1 para continuar as leituras do SEUC-4.\n")
+    print(f"Digite 2 para retornar ao menu inicial.\n")
+
+    opcao = int(input("Insira a opção!\n"))
+    match opcao:
+        case 1:
+            menu_leituras()
+        case 2:
+            print(f"Retornando ao menu inicial...")
+            menu_inicial()
+        case _:
+            print(f"Opção inválida!")
+            continuar()
+
 
 
 def login():
-    u1 = ['Eduardo Martins', 1234, 0]
-    u2 = ['Gustavo De Oliveira', 4321, 0]
-    u3 = ['Enzo Carletinhos', 5678, 0]
-    u4 = ['Pedro Businari', 8765, 0]
+    usuários = [
+    ['Eduardo Martins', 1234],
+    ['Gustavo De Oliveira', 4321],
+    ['Enzo Carletinhos', 5678],
+    ['Pedro Businari', 8765]]
+
     nome = input(f"\nDigite o nome do usuario: ")
     senha = int(input(f"\nInforme a senha: "))
 
-    if (nome == u1[0] or nome == u2[0] or nome == u3[0] or nome == u4[0]) and (senha == u1[1] or senha == u2[1] or senha == u3[1] or senha == u4[1]):
+    login_sucesso = False
+    for i in range(len(usuários)):
+        if nome == usuários[i][0] and senha == usuários[i][1]:
+            login_sucesso = True
+            break
+            
+    
+    if login_sucesso == True:
         print(f"\nEntrando...")   
         menu_leituras()
-    else:
-        print(f"\nErro no login")
-        login()
 
-login()
-menu_leituras()
+    else:
+        print(f"\nErro no login.")
+        login()
+    
+def menu_inicial():
+    print(f"\nMENU INICIAL\n")
+    print(f"Digite 1 para iniciar o SEUC-4.\n")
+    print(f"Digite 2 para encerrar o sistema.\n")
+
+    opcao = int(input("Insira a opção!\n"))
+    match opcao:
+        case 1:
+            print(f"\nIniciando o SEUC-4...")
+            login()
+        case 2:
+            print(f"\nEncerrando o SEUC-4...\n")
+        case _:
+            print(f"\nOpção inválida!\n")
+            menu_inicial()
+
+
+menu_inicial()
