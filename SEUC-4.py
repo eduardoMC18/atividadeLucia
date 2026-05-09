@@ -1,4 +1,4 @@
-# from rich import print
+from rich import print
 
 def menu_leituras():
     numLeituras = int(input("Quantidade de leituras que serão realizadas no seu turno: "))
@@ -10,25 +10,29 @@ def menu_leituras():
 
     while leiturasRealizadas < numLeituras:
         leituraAtual = int(input("Leitura(UPCs): "))
+
+        if leituraAtual > 150:
+            leituraAtual *= 1.08
+        else:
+            leituraAtual *= 0.96
+        print(leituraAtual)
         somaLeituras += leituraAtual
 
-        if leituraAtual < menorLeitura and leituraAtual > 120:
+        if leituraAtual < menorLeitura:
             menorLeitura = leituraAtual
 
 
         if leituraAtual >= 250:
-            print("[yellow]ZONA VERMELHA[/yellow]")
+            print("[red]ZONA VERMELHA[/red]")
             zonaVermelha += 1
         else:
             if 120 <= leituraAtual <= 180:
                 
                 leiturasVerdes += 1
             else:
-                if leituraAtual < 120:
-                    print("Dado menor que 120, não lido")
-                    leiturasRealizadas -= 1
-                    somaLeituras -= leituraAtual
 
+                if leituraAtual < 250 or leituraAtual < 120:
+                    print('[yellow]ZONA AMARELA[/yellow]')
 
             zonaVermelha = 0
 
@@ -44,26 +48,29 @@ def menu_leituras():
     relatorio = f"""
         [green]RELATÓRIO[/green]
             Media das pressões: [blue]{somaLeituras/leiturasRealizadas:.2f} [/blue]
-            Menor Leitura: [blue]{menorLeitura} [/blue]
+            Menor Leitura: [blue]{menorLeitura:.2f} [/blue]
             Porcentagem de leituras verdes: [green]{porcentagemVerde:.2f}% [/green]
     """
     if zonaVermelha >= 2:
         porcentagemRealizada = (leiturasRealizadas/numLeituras) * 100
         relatorio += f"        Porcentagem de leituras realizadas: {porcentagemRealizada:.2f}%"
         print(relatorio)
+    else:
+        print(relatorio)
 
 
 
 
 def login():
-    u1 = ['Eduardo Martins', 1234, 0]
-    u2 = ['Gustavo De Oliveira', 4321, 0]
-    u3 = ['Enzo Carletinhos', 5678, 0]
+    usuarios = [['Eduardo Martins', 1234, 0], ['Gustavo De Oliveira', 4321, 0], ['Enzo Carletinhos', 5678, 0]]
     nome = input("Digite o nome do usuario: ")
     senha = int(input("Informe a senha: "))
-    if (nome == u1[0] or nome == u2[0] or nome == u3[0]) and (senha == u1[1] or senha == u2[1] or senha == u3[1]):
-        print("Entrando...")
-        menu_leituras()
-    else:
-        print("Erro no login")
+
+    for usuario in usuarios:
+        if nome == usuario[0]:
+            if senha == usuario[1]:
+                print("Login realizado com sucesso\n")
+                menu_leituras()
+    print("Usuário ou senha incorretos")
+
 login()
