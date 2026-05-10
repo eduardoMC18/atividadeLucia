@@ -35,13 +35,12 @@ def menu_leituras():
         pressão = ler_pressão()
         
         # Aqui é onde acontecem os ajustes e análise das pressões
-        if pressão < 120:
-            pressão_ajustada = pressão 
-        elif pressão <= 150 and pressão>=120:
-            pressão_ajustada = pressão*0.96
-                
+        if pressão > 150:
+            pressão_ajustada = pressão * 1.08
         else:
-            pressão_ajustada = pressão*1.08
+            pressão_ajustada = pressão * 0.96
+
+
         if i == 0:
             menor=pressão_ajustada
             maior=pressão_ajustada
@@ -54,10 +53,8 @@ def menu_leituras():
         i+=1
         print(f"\nLEITURA {i}/{num_de_leituras}")
         
-        if pressão<120:
-            print(f"A pressão de {pressão:.2f} UPCs continuará sendo {pressão_ajustada:.2f} UPCs")
-        else:
-            print(f"A pressão de {pressão:.2f} UPCs foi ajustada para {pressão_ajustada:.2f} UPCs")
+
+        print(f"A pressão de {pressão:.2f} UPCs foi ajustada para {pressão_ajustada:.2f} UPCs")
 
         if 180>=pressão_ajustada>=120:
             zona_verde+=1
@@ -96,7 +93,7 @@ def menu_leituras():
         print(f"A menor pressão após o ajuste foi de {menor:.2f} UPCs")
         print(f"A maior pressão após o ajuste foi de {maior:.2f} UPCs")
         print(f"A média das pressões ajustadas foi de {media_ajustadas:.2f} UPCs")
-        print(f"A maior sequências de leituras verdes foi de {sequencia_verde:.2f}%\n")
+        print(f"A maior sequências de leituras verdes foi de {sequencia_verde:.2f}\n")
         print(f"A porcentagem de leituras verdes foi de {porcentagem_verde:.2f}%\n")
         
     else:
