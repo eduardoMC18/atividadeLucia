@@ -28,8 +28,9 @@ def menu_leituras():
     soma_ajustadas = 0
     menor = 0
     maior = 0
+    consecutivas_verde = 0
+    sequencia_verde = 0
 
-    
     while i < num_de_leituras:
         pressão = ler_pressão()
         
@@ -61,14 +62,19 @@ def menu_leituras():
         if 180>=pressão_ajustada>=120:
             zona_verde+=1
             consecutivas_vermelha= 0
+            consecutivas_verde += 1 
+            if consecutivas_verde > sequencia_verde:
+                sequencia_verde = consecutivas_verde
             print("A pressão está na ZONA VERDE")
         elif 250>=pressão_ajustada>180 or pressão_ajustada<120:
             zona_amarela+=1
-            consecutivas_vermelha= 0
+            consecutivas_vermelha = 0
+            consecutivas_verde = 0
             print("A pressão está na ZONA AMARELA")
         elif pressão_ajustada>250:
             zona_vermelha+=1
             consecutivas_vermelha+=1
+            consecutivas_verde = 0
             print(f"ALERTA: pressão {pressão_ajustada:.2f} UPCs na ZONA VERMELHA")
 
         soma_ajustadas+= pressão_ajustada 
@@ -90,6 +96,7 @@ def menu_leituras():
         print(f"A menor pressão após o ajuste foi de {menor:.2f} UPCs")
         print(f"A maior pressão após o ajuste foi de {maior:.2f} UPCs")
         print(f"A média das pressões ajustadas foi de {media_ajustadas:.2f} UPCs")
+        print(f"A maior sequências de leituras verdes foi de {sequencia_verde:.2f}%\n")
         print(f"A porcentagem de leituras verdes foi de {porcentagem_verde:.2f}%\n")
         
     else:
