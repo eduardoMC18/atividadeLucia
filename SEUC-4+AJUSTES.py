@@ -93,7 +93,7 @@ def menu_leituras():
         print(f"A menor pressão após o ajuste foi de {menor:.2f} UPCs")
         print(f"A maior pressão após o ajuste foi de {maior:.2f} UPCs")
         print(f"A média das pressões ajustadas foi de {media_ajustadas:.2f} UPCs")
-        print(f"A maior sequências de leituras verdes foi de {sequencia_verde:.2f}\n")
+        print(f"A maior sequência de leituras verdes foi de {sequencia_verde:.2f}")
         print(f"A porcentagem de leituras verdes foi de {porcentagem_verde:.2f}%\n")
         
     else:
