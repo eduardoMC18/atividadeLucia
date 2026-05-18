@@ -8,5 +8,12 @@ def cadastrar_pedido():
         'status_pedido': 0,
         'id_entregador': 0
     }
-    for i in novo_pedido:
-        return i
+    for key in novo_pedido:
+        if key == 'id_pedido':
+            pass
+        else: 
+            dado = input(f"Insira o dado do {key}\n")
+            novo_pedido[key] = dado
+
+
+cadastrar_pedido()
