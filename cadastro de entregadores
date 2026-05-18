@@ -6,36 +6,55 @@ Permite o Cadastro dos Entregadores
 • ID dos Pedidos a serem entregues
 • Disponibilidade"""
 
-def cadastro_entregadores():
-    novo_entregador = {
-        "id do entregador":0,
-        "nome de entregador":0,
-        "veículo":0,
-        "id dos pedidos":0,
-        "disponibilidade":0
-    }    
 
-    ID_entregador= input ("ID do Entregador (constituído de 4 dígitos):")
-    novo_entregador["id do entregador"] = ID_entregador
+ 
 
-    nome_entregador = input("nome do entregador?")
-    novo_entregador["nome de entregador"] = nome_entregador
-    
+lista_entregadores = []
+
+def cadastrar_entregador():
+
+    entregador = {
+    "id do entregador":0,
+    "nome de entregador":0,
+    "veículo":0,
+    "id dos pedidos":0,
+    "disponibilidade":0
+    }  
+
+    def cadastrar_ID ():
+        ID_entregador= input ("ID do Entregador (constituído de 4 dígitos):")
+        if ID_entregador not in lista_entregadores:
+            entregador["id do entregador"] = ID_entregador
+            
+        else:
+            while ID_entregador in lista_entregadores:
+                print("id já existente!")  
+                ID_entregador= input ("ID do Entregador (constituído de 4 dígitos):")   
+                if ID_entregador not in lista_entregadores:
+                    entregador["id do entregador"] = ID_entregador
+                    
+    cadastrar_ID()
+        
     def cadastrar_veiculo():
-        valido = False
-        while valido == False:
+        veiculo = input("o veículo é van, moto, ou carro?").strip() .lower()
+        if veiculo in ["van", "moto", "carro"]:
+                entregador["veículo"] = veiculo
+                
+        while veiculo not in ["van", "moto", "carro"]:
             veiculo = input("o veículo é van, moto, ou carro?").strip() .lower()
             if veiculo in ["van", "moto", "carro"]:
-                valido = True
-                return True                              
+                entregador["veículo"] = veiculo
+                
+                                
     cadastrar_veiculo()
 
     id_pendentes = input("qual o ID dos pedidos a serem entregues?")
-    novo_entregador["id dos pedidos"] = id_pendentes
+    entregador["id dos pedidos"] = id_pendentes
 
     disponibilidade = input("o entregador está disponível?")
-    novo_entregador["disponibilidade"] = disponibilidade
-    print(f"\n{novo_entregador}")
-
-cadastro_entregadores()
-
+    entregador["disponibilidade"] = disponibilidade
+    
+    lista_entregadores.append(entregador)
+    
+cadastrar_entregador()
+print(f"\n{lista_entregadores}")
