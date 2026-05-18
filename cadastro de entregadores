@@ -1,0 +1,34 @@
+"""Cadastro de Entregadores
+Permite o Cadastro dos Entregadores
+• ID do Entregador (constituído de 4 dígitos)
+• Nome do entregador
+• Veículo (carro, van, moto)
+• ID dos Pedidos a serem entregues
+• Disponibilidade"""
+
+def cadastro_entregadores():
+    novo_entregador = {
+        "id do entregador":0,
+        "nome de entregador":0,
+        "veículo":0,
+        "id dos pedidos":0,
+        "disponibilidade":0
+    }
+    
+    ID_entregador= input ("ID do Entregador (constituído de 4 dígitos):")
+    novo_entregador["id do entregador"] = ID_entregador
+
+    nome_entregador = input("nome do entregador?")
+    novo_entregador["nome de entregador"] = nome_entregador
+
+    veiculo = input("o veículo é van, moto, ou carro?")
+    novo_entregador["veículo"] = veiculo
+
+    id_pendentes = input("qual o ID dos pedidos a serem entregues?")
+    novo_entregador["id dos pedidos"] = id_pendentes
+
+    disponibilidade = input("o entregador está disponível?")
+    novo_entregador["disponibilidade"] = disponibilidade
+    print(f"\n{novo_entregador}")
+
+cadastro_entregadores()
