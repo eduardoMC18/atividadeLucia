@@ -30,5 +30,9 @@ def buscar_pedidos():
         else:
             print(pedido)
             repeat = 1
+    
+buscar_pedidos()
 
 cadastrar_pedido()
+
+buscar_pedidos()
