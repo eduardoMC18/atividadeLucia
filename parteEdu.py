@@ -26,6 +26,6 @@ def buscar_pedidos():
             print(novo_pedido)
             repeat = 1
     
-buscar_pedidos()
-
 cadastrar_pedido()
+
+buscar_pedidos()
