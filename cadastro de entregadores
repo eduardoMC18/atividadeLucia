@@ -13,16 +13,22 @@ def cadastro_entregadores():
         "veículo":0,
         "id dos pedidos":0,
         "disponibilidade":0
-    }
-    
+    }    
+
     ID_entregador= input ("ID do Entregador (constituído de 4 dígitos):")
     novo_entregador["id do entregador"] = ID_entregador
 
     nome_entregador = input("nome do entregador?")
     novo_entregador["nome de entregador"] = nome_entregador
-
-    veiculo = input("o veículo é van, moto, ou carro?")
-    novo_entregador["veículo"] = veiculo
+    
+    def cadastrar_veiculo():
+        valido = False
+        while valido == False:
+            veiculo = input("o veículo é van, moto, ou carro?").strip() .lower()
+            if veiculo in ["van", "moto", "carro"]:
+                valido = True
+                return True                              
+    cadastrar_veiculo()
 
     id_pendentes = input("qual o ID dos pedidos a serem entregues?")
     novo_entregador["id dos pedidos"] = id_pendentes
@@ -32,3 +38,4 @@ def cadastro_entregadores():
     print(f"\n{novo_entregador}")
 
 cadastro_entregadores()
+
