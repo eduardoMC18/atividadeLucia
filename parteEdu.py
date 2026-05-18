@@ -8,6 +8,12 @@ def cadastrar_pedido():
         'status_pedido': 'Pendente',
         'id_entregador': 0
     }
+    for key in novo_pedido:
+        if key == 'id_pedido':
+            pass
+        else: 
+            dado = input(f"Insira o dado do {key}\n")
+            novo_pedido[key] = dado
 
 def buscar_pedidos():
     repeat = 0
@@ -21,3 +27,5 @@ def buscar_pedidos():
             repeat = 1
     
 buscar_pedidos()
+
+cadastrar_pedido()
