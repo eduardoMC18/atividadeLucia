@@ -14,7 +14,7 @@ entregador = {
     'id_entregador': 0,
     'nome': 0,
     'veiculo': 0,
-    'id_pedido': 0,
+    'id_pedido': [],
     'disponibilidade': 0
 }
 pedidos = []
@@ -67,14 +67,35 @@ def atualizar_pedido():
 def buscar_pedidos():
     repeat = 0
     print("Digite o ID do pedido:\n")
-    while repeat == 0:
-        buscar = int(input(""))
-        if buscar != pedido['id_pedido']:
-            print("Erro, o ID não existe, digite outro ID:\n")
-        else:
-            print(pedido)
-            repeat = 1
-            return pedido
+    for i in pedidos:
+        busca = int(input(''))
+        if i['id_pedido'] == busca:
+            return i
+        
+def consultas():
+    a = 0
+    while a != 4:
+        a = int(input(''))
+        match a:
+            case 1:
+                for i in pedidos:
+                    if i['status_pedido'] == 'Pendente':
+                        print(i)
+            case 2:
+                for i in pedidos:
+                    if i['status_pedido'] == 'Entregue':
+                        print(i)
+            case 3:
+                buscar_pedidos()
+            case 4:
+                for i in entregadores:
+                    if i['disponibilidade'] == 'Disponivel':
+                        print(i)
+            # case 5:
+            #     for i in entregadores:
+            #         for w in i['id_pedido']:
+
+
 
 def criar_id():
     letra = random.choice(string.ascii_letters)
@@ -88,7 +109,7 @@ while a != 4:
           --------------
           MENU PRINCIPAL
           --------------""")
-    a = int(input('1-Cadastrar pedidos\n2-Buscar pedidos\n3-Atualizar pedidos\n'))
+    a = int(input('1-Cadastrar pedidos\n2-Consultas\n3-Atualizar pedidos\n'))
     match a:
         case 1:
             cadastrar_pedido()
@@ -96,3 +117,4 @@ while a != 4:
             buscar_pedidos()
         case 3:
             atualizar_pedido()
+
