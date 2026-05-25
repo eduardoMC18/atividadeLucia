@@ -97,6 +97,7 @@ def consultas():
             # case 5:
             #     for i in entregadores:
             #         for w in i['id_pedido']:
+     menu_principal()
 
 def  relatorios():
     print(f"Total de pedidos cadastrados: {len(pedidos)}")
@@ -128,26 +129,27 @@ def criar_id():
     numeros = random.randint(0, 9999)
     id = letra + str(numeros)
     return id
+def menu_principal():
+        a = 0
+        while a != 7:
+            print("""
+                  --------------
+                  MENU PRINCIPAL
+                  --------------""")
+            a = int(input('1-Cadastrar Pedidos\n2-Cadastrar Entregador\n3-Atualizar Pedidos\n4-Consultas\n5-Relatórios\n6-Fechar Sistema\n\nEscolha uma opção: '))
+            match a:
+                case 1:
+                    cadastrar_pedido()
+                case 2:
+                    cadastrar_entregador()
+                case 3:
+                    atualizar_pedido()
+                case 4:
+                    consultas() 
+                case 5:
+                    relatorios()
+                case 6:
+                    break
+        
 
-a = 0
-while a != 7:
-    print("""
-          --------------
-          MENU PRINCIPAL
-          --------------""")
-    a = int(input('1-Cadastrar Pedidos\n2-Cadastrar Entregador\n3-Atualizar Pedidos\n4-Consultas\n5-Relatórios\n6-Fechar Sistema\n\nEscolha uma opção: '))
-    match a:
-        case 1:
-            cadastrar_pedido()
-        case 2:
-            cadastrar_entregador()
-        case 3:
-            atualizar_pedido()
-        case 4:
-            consultas() 
-        case 5:
-            relatorios()
-        case 6:
-            break
-
-
+menu_principal()
