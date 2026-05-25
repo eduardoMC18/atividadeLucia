@@ -98,10 +98,13 @@ def consultas():
                     if i['disponibilidade'] == 'Disponivel':
                         print(i)
             case 5:
-                return
-            # case 5:
-            #     for i in entregadores:
-            #         for w in i['id_pedido']:
+                 for i in entregadores:
+                    numero_pedido = 0
+                    for w in i['id_entregador']:
+                        numero_pedido += 1
+                        print('Id do pedido entregue:', w)
+                    print('Total de pedidos entregues:', numero_pedido)
+                         
     menu_principal()
 
 
