@@ -31,6 +31,13 @@ def cadastrar_entregador():
                     entregador["id do entregador"] = ID_entregador
         print(f'''O ID aleatório "{ID_entregador}" foi gerado''')           
     cadastrar_ID()
+
+    def cadastrar_nome():
+        nome_entregador = input("nome completo:")
+        entregador["nome de entregador"] = nome_entregador
+        print(f'''o entregador "{nome_entregador}" foi cadastrado ''')
+    cadastrar_nome()
+
         
     def cadastrar_veiculo():
         veiculos =  ["van", "moto", "carro"]
