@@ -5,12 +5,20 @@ incompletos, contraditórios ou pouco objetivos)."
 justificadas no relatório a ser entregue"
 
 .1- PRIORIDADE - alguns gestores afirmam que os pedidos devem ser priorizados por urgência;
-outros defendem ordem de chegada. 
+outros defendem ordem de chegada.
+-> proposta: em geral, as entregas devem acontecer por ordem de chegada (prioridade normal). 
+Mas caso a pessoa pague o frete mais rápido, ela entra primeiro na fila,
+fazendo com que seu pedido seja mandado para o transporte antes de uma entrega com frete menor.  
 
 .2 - QUANTIDADE - Alguns acreditam que entregadores não devem assumir múltiplas rotas
 simultaneamente; outros disseram que isso depende da carga.
+-> dividir o local em regioes N, S, L, O. as rotas assumidas devem ser da mesma região,
+podendo assumir X entregas por dia.
 
 .3 - Avaliar a quantidade de pedidos que um entregador pode assumir
 - a possibilidade ou não de um pedido cancelado ser reativado
 - a possibilidade de alterar automaticamente a ordem de entrega dos pedidos.
+
+.4 - certas operações só fazem sentido em horários específicos.
+-> pode usar datetime?
 
