@@ -129,6 +129,7 @@ def criar_id():
     numeros = random.randint(0, 9999)
     id = letra + str(numeros)
     return id
+
 def menu_principal():
         a = 0
         while a != 7:
