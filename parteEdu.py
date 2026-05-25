@@ -35,11 +35,16 @@ def cadastrar_entregador():
     novo_entregador = entregador.copy()
     novo_entregador['id_pedido'] = []
     for key in novo_entregador:
-        if key == 'id_pedido':
-            novo_entregador['id_pedido'] = criar_id()
-        else: 
-            dado = input(f"Insira o dado do(a) {key}\n")
-            novo_entregador[key] = dado
+        if key == 'id_entregador':
+            id = criar_id()
+            novo_entregador['id_entregador'] = id
+        else:
+            if key == 'veiculo':
+                veiculo = cadastrar_veiculo()
+                novo_entregador['veiculo'] == veiculo
+            else:
+                dado = input(f"Insira o dado do(a) {key}\n")
+                novo_entregador[key] = dado
     entregadores.append(novo_entregador)
     print(novo_entregador)
 
@@ -97,7 +102,8 @@ def consultas():
             # case 5:
             #     for i in entregadores:
             #         for w in i['id_pedido']:
-     menu_principal()
+    menu_principal()
+
 
 def  relatorios():
     print(f"Total de pedidos cadastrados: {len(pedidos)}")
@@ -129,6 +135,26 @@ def criar_id():
     numeros = random.randint(0, 9999)
     id = letra + str(numeros)
     return id
+
+def buscar_entregadores():
+    print("Digite o ID do pedido:\n")
+    for i in entregadores:
+        busca = (input('Informe o ID do Pedido: '))
+        if i['id_entregador'] == busca:
+            return i
+
+def cadastrar_veiculo():
+    veiculos =  ["van", "moto", "carro"]
+    veiculo = input("o veículo é van, moto, ou carro?").strip().lower()
+    if veiculo in veiculos:
+            return veiculo
+            
+    while veiculo not in veiculos:
+        print("O veículo é van, moto, ou carro?")
+        veiculo = input("escolha uma das três opções").strip().lower()
+        if veiculo in veiculos:
+            return veiculo
+               
 
 def menu_principal():
         a = 0
