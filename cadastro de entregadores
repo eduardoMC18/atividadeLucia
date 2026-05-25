@@ -5,10 +5,7 @@ Permite o Cadastro dos Entregadores
 • Veículo (carro, van, moto)
 • ID dos Pedidos a serem entregues
 • Disponibilidade"""
-
-
- 
-
+import random
 lista_entregadores = []
 
 def cadastrar_entregador():
@@ -22,7 +19,7 @@ def cadastrar_entregador():
     }  
 
     def cadastrar_ID ():
-        ID_entregador= input ("ID do Entregador (constituído de 4 dígitos):")
+        ID_entregador=random.randint(1000, 9999)
         if ID_entregador not in lista_entregadores:
             entregador["id do entregador"] = ID_entregador
             
@@ -32,22 +29,22 @@ def cadastrar_entregador():
                 ID_entregador= input ("ID do Entregador (constituído de 4 dígitos):")   
                 if ID_entregador not in lista_entregadores:
                     entregador["id do entregador"] = ID_entregador
-                    
+        print(f'''O ID aleatório "{ID_entregador}" foi gerado''')           
     cadastrar_ID()
         
     def cadastrar_veiculo():
+        veiculos =  ["van", "moto", "carro"]
         veiculo = input("o veículo é van, moto, ou carro?").strip() .lower()
-        if veiculo in ["van", "moto", "carro"]:
+        if veiculo in veiculos:
                 entregador["veículo"] = veiculo
                 
-        while veiculo not in ["van", "moto", "carro"]:
+        while veiculo not in veiculos:
             veiculo = input("o veículo é van, moto, ou carro?").strip() .lower()
-            if veiculo in ["van", "moto", "carro"]:
+            if veiculo in veiculos:
                 entregador["veículo"] = veiculo
                 
                                 
     cadastrar_veiculo()
-
     id_pendentes = input("qual o ID dos pedidos a serem entregues?")
     entregador["id dos pedidos"] = id_pendentes
 
