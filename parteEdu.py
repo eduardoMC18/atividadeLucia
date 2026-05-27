@@ -22,14 +22,42 @@ entregadores = []
 
 def cadastrar_pedido():
     novo_pedido = pedido.copy()
+
     for key in novo_pedido:
         if key == 'id_pedido':
             novo_pedido['id_pedido'] = criar_id()
-        else: 
-            dado = input(f"Insira o dado do(a) {key}\n")
-            novo_pedido[key] = dado
-    pedidos.append(novo_pedido)
-    print(novo_pedido)
+        elif key == 'status_pedido':
+            dado = input(f"Insira o dado do(a) {key}: ")
+            if dado not in ['Pendente', 'Em Rota', 'Entregue', 'Cancelado']:
+                validacao = False
+                while not validacao:
+                    dado = input('Por favor, escolha entre "Pendente", "Em Rota", "Entregue" ou "Cancelado"\n')
+                    if dado not in ['Pendente', 'Em Rota', 'Entregue', 'Cancelado']:
+                        validacao = False
+                    else:
+                        novo_pedido[key] = dado
+                        validacao = True
+            else:
+                novo_pedido[key] = dado
+        elif key == 'prioridade':
+            dado = input(f"Insira o dado do(a) {key}: ")
+            if dado not in ['Alta', 'Normal']:
+                validacao = False
+                while not validacao:
+                    dado = input('Por favor, escolha entre "Alta" ou "Normal"\n')
+                    if dado not in ['Alta', 'Normal']:
+                        validacao = False
+                    else:
+                        novo_pedido[key] = dado
+                        validacao = True
+
+        else:
+            dado = input(f"Insira o dado do(a) {key}: ")
+            if novo_pedido[key] == 'nome_cliente' or 'endereco' or 'descricao_pedido' or 'status_pedido':
+                novo_pedido[key] = dado
+            else:
+                dado = int(dado)
+                novo_pedido[key] = dado
 
 def cadastrar_entregador():
     novo_entregador = entregador.copy()
@@ -109,7 +137,7 @@ def consultas():
 
 
 def  relatorios():
-    print(f"Total de pedidos cadastrados: {len(pedidos)}")
+    print(f"\nTotal de pedidos cadastrados: {len(pedidos)}")
     
     status_contagem = {'Pendente': 0, 'Em Rota': 0, 'Entregue': 0, 'Cancelado': 0}
     altas = 0
