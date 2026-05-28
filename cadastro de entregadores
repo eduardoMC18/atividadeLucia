@@ -58,9 +58,8 @@ def cadastrar_pedido():
             else:
                 dado = int(dado)
                 novo_pedido[key] = dado
-
+novo_entregador = entregador.copy()
 def cadastrar_entregador():
-    novo_entregador = entregador.copy()
     novo_entregador['id_pedido'] = []
     for key in novo_entregador:
         if key == 'id_entregador':
@@ -204,12 +203,19 @@ def cadastrar_nome():
     return nome_entregador
 
 def disponibilidade():
-    dispo = input("está disponível? (Sim ou Não)").strip() .title()
-    return dispo
+    tamanho = len(novo_entregador['id_pedido'])
+    print(tamanho)
+    if tamanho >= 9:
+        return 'indisponível'
+    elif tamanho <= 9:
+        return 'disponível'
 
+#os ids nao estao acumulando na lista, ARRUMAR
 def pedidos_entregadores():
-    id_pedidos = input("id dos pedidos a serem cadastrados: ")
-    return id_pedidos
+    Q=int(input("quantos pedidos serão cadastrados:"))
+    for i in range(Q):
+        id_pedido = input("digite o id:")
+    return id_pedido
             
 
 def menu_principal():
