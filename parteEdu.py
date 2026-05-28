@@ -75,8 +75,16 @@ def cadastrar_entregador():
                 veiculo = cadastrar_veiculo()
                 novo_entregador['veiculo'] = veiculo
             else:
-                dado = input(f"Insira o dado do(a) {key}\n")
-                novo_entregador[key] = dado
+                if key == 'id_pedido':
+                    pedidos = []
+                    num = int(input('Quantos pedidos esse entregador tem?'))
+                    for i in range(num):
+                        pedido = input(f'Digite o {i+1}º id: ')
+                        pedidos.append(pedido)
+                    novo_entregador['id_pedido'] = pedidos
+                else:       
+                    dado = input(f"Insira o dado do(a) {key}\n")
+                    novo_entregador[key] = dado
     entregadores.append(novo_entregador)
     print(novo_entregador)
 
@@ -118,27 +126,40 @@ def buscar_pedidos():
         
 def consultas():
     a = 0
-    while a != 4:
-        a = int(input('1-Pendentes\n2-Entregue\n3-Buscar Pedido\n4-Disponivel\n5-Voltar ao Menu\n\nEscolha uma opção: '))
+    while a != 6:
+        a = int(input('1-Pendentes\n2-Entregue\n3-Buscar Pedido\n4-Entregadores disponiveis\n5-Entregas realizadas por entregador\n6-Voltar ao menu\n\nEscolha uma opção: '))
         match a:
             case 1:
+                pedido = None
                 for i in pedidos:
                     if i['status_pedido'] == 'Pendente':
                         print(i)
+                    pedido = i
+                if not pedido:
+                    print('Nenhum pedido pendente')
             case 2:
+                pedido = None
                 for i in pedidos:
                     if i['status_pedido'] == 'Entregue':
                         print(i)
+                    pedido = i
+                if not pedido:
+                    print('Nenhum pedido a ser entregue')
             case 3:
                 buscar_pedidos()
             case 4:
+                entregador = None
                 for i in entregadores:
-                    if i['disponibilidade'] == 'Disponivel':
+                    if i['disponibilidade'] <= 10:
                         print(i)
+                    entregador = i
+                if not entregador:
+                    print("Nenhum entregador disponivel")
             case 5:
                  for i in entregadores:
                     numero_pedido = 0
-                    for w in i['id_entregador']:
+                    for w in i['id_pedido']:
+                        print(w)
                         numero_pedido += 1
                         print('Id do pedido entregue:', w)
                     print('Total de pedidos entregues:', numero_pedido)
