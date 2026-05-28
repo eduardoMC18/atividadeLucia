@@ -1,64 +1,238 @@
-"""Cadastro de Entregadores
-Permite o Cadastro dos Entregadores
-• ID do Entregador (constituído de 4 dígitos)
-• Nome do entregador
-• Veículo (carro, van, moto)
-• ID dos Pedidos a serem entregues
-• Disponibilidade"""
 import random
-lista_entregadores = []
+import string
+
+pedido = {
+        'id_pedido': 0,
+        'nome_cliente': 0,
+        'endereco': 0,
+        'prioridade': 0,
+        'descricao_pedido': 0,
+        'status_pedido': 'Pendente',
+        'id_entregador': 0
+    }
+entregador = {
+    'id_entregador': 0,
+    'nome': 0,
+    'veiculo': 0,
+    'id_pedido': [],
+    'disponibilidade': 0
+}
+pedidos = []
+entregadores = []
+
+def cadastrar_pedido():
+    novo_pedido = pedido.copy()
+
+    for key in novo_pedido:
+        if key == 'id_pedido':
+            novo_pedido['id_pedido'] = criar_id()
+        elif key == 'status_pedido':
+            dado = input(f"Insira o dado do(a) {key}: ")
+            if dado not in ['Pendente', 'Em Rota', 'Entregue', 'Cancelado']:
+                validacao = False
+                while not validacao:
+                    dado = input('Por favor, escolha entre "Pendente", "Em Rota", "Entregue" ou "Cancelado"\n')
+                    if dado not in ['Pendente', 'Em Rota', 'Entregue', 'Cancelado']:
+                        validacao = False
+                    else:
+                        novo_pedido[key] = dado
+                        validacao = True
+            else:
+                novo_pedido[key] = dado
+        elif key == 'prioridade':
+            dado = input(f"Insira o dado do(a) {key}: ")
+            if dado not in ['Alta', 'Normal']:
+                validacao = False
+                while not validacao:
+                    dado = input('Por favor, escolha entre "Alta" ou "Normal"\n')
+                    if dado not in ['Alta', 'Normal']:
+                        validacao = False
+                    else:
+                        novo_pedido[key] = dado
+                        validacao = True
+
+        else:
+            dado = input(f"Insira o dado do(a) {key}: ")
+            if novo_pedido[key] == 'nome_cliente' or 'endereco' or 'descricao_pedido' or 'status_pedido':
+                novo_pedido[key] = dado
+            else:
+                dado = int(dado)
+                novo_pedido[key] = dado
 
 def cadastrar_entregador():
+    novo_entregador = entregador.copy()
+    novo_entregador['id_pedido'] = []
+    for key in novo_entregador:
+        if key == 'id_entregador':
+            id = cadastrar_ID()
+            novo_entregador['id_entregador'] = id
+        elif key == 'veiculo':
+            veiculo = cadastrar_veiculo()
+            novo_entregador['veiculo'] = veiculo
+        elif key == 'nome':
+            nome = cadastrar_nome()
+            novo_entregador['nome'] = nome
+        elif key == 'disponibilidade':
+            dispo = disponibilidade()
+            novo_entregador['disponibilidade'] = dispo
+        elif key == 'id_pedido':
+            IDs=pedidos_entregadores()
+            novo_entregador['id_pedido'] = IDs
+    entregadores.append(novo_entregador)
+    print(novo_entregador)
 
-    entregador = {
-    "id do entregador":0,
-    "nome de entregador":0,
-    "veículo":0,
-    "id dos pedidos":0,
-    "disponibilidade":0
-    }  
-
-    def cadastrar_ID ():
-        ID_entregador=random.randint(1000, 9999)
-        if ID_entregador not in lista_entregadores:
-            entregador["id do entregador"] = ID_entregador
-            
+def atualizar_pedido():
+    pedido = buscar_pedidos()
+    a = int(input("Oque voce deseja alterar?\n\n1-Alterar Status\n2-Cancelar Pedido\n3-Associar Entregador\n4-Remover Associação de Entregador"))
+    if a == 1:
+        novo_status = input("Digite o status: ")
+        pedido['status_pedido'] = novo_status
+        print(pedido)
+    else:
+        if a == 2:
+            pedido['status_pedido'] = 'Cancelado'
+            print(pedido)
         else:
-            while ID_entregador in lista_entregadores:
-                print("id já existente!")  
-                ID_entregador= input ("ID do Entregador (constituído de 4 dígitos):")   
-                if ID_entregador not in lista_entregadores:
-                    entregador["id do entregador"] = ID_entregador
-        print(f'''O ID aleatório "{ID_entregador}" foi gerado''')           
-    cadastrar_ID()
+            if a == 3:
+                id_entregador = int(input('Digite o id do entregador: '))
+                pedido['id_entregador'] = id_entregador
+                print(pedido)
+            else: 
+                if a == 4:
+                    pedido['id_entregador'] = None
+                    print(pedido)
 
-    def cadastrar_nome():
-        nome_entregador = input("nome completo:")
-        entregador["nome de entregador"] = nome_entregador
-        print(f'''o entregador "{nome_entregador}" foi cadastrado ''')
-    cadastrar_nome()
 
+def buscar_pedidos():
+    repeat = 0
+    print("Digite o ID do pedido:\n")
+    for i in pedidos:
+        busca = (input('Informe o ID do Pedido: '))
+        if i['id_pedido'] == busca:
+            return i
         
-    def cadastrar_veiculo():
-        veiculos =  ["van", "moto", "carro"]
-        veiculo = input("o veículo é van, moto, ou carro?").strip() .lower()
-        if veiculo in veiculos:
-                entregador["veículo"] = veiculo
-                
-        while veiculo not in veiculos:
-            veiculo = input("o veículo é van, moto, ou carro?").strip() .lower()
-            if veiculo in veiculos:
-                entregador["veículo"] = veiculo
-                
-                                
-    cadastrar_veiculo()
-    id_pendentes = input("qual o ID dos pedidos a serem entregues?")
-    entregador["id dos pedidos"] = id_pendentes
+def consultas():
+    a = 0
+    while a != 4:
+        a = int(input('1-Pendentes\n2-Entregue\n3-Buscar Pedido\n4-Disponivel\n5-Voltar ao Menu\n\nEscolha uma opção: '))
+        match a:
+            case 1:
+                for i in pedidos:
+                    if i['status_pedido'] == 'Pendente':
+                        print(i)
+            case 2:
+                for i in pedidos:
+                    if i['status_pedido'] == 'Entregue':
+                        print(i)
+            case 3:
+                buscar_pedidos()
+            case 4:
+                for i in entregadores:
+                    if i['disponibilidade'] == 'Disponivel':
+                        print(i)
+            case 5:
+                 for i in entregadores:
+                    numero_pedido = 0
+                    for w in i['id_entregador']:
+                        numero_pedido += 1
+                        print('Id do pedido entregue:', w)
+                    print('Total de pedidos entregues:', numero_pedido)
+                         
+    menu_principal()
 
-    disponibilidade = input("o entregador está disponível?")
-    entregador["disponibilidade"] = disponibilidade
+
+def  relatorios():
+    print(f"\nTotal de pedidos cadastrados: {len(pedidos)}")
     
-    lista_entregadores.append(entregador)
+    status_contagem = {'Pendente': 0, 'Em Rota': 0, 'Entregue': 0, 'Cancelado': 0}
+    altas = 0
+    for i in pedidos:
+        status_contagem[i['status_pedido']] += 1
+        if i['prioridade'] == 'Alta':
+            altas += 1
+            
+    print("\nQuantidade de pedidos por status:")
+    for status, qtd in status_contagem.items():
+        print(f"  - {status}: {qtd}")
+        
+    print(f"\nPedidos com alta prioridade total: {altas}")
     
-cadastrar_entregador()
-print(f"\n{lista_entregadores}")
+    maior_volume = -1
+    nome_destaque = "Nenhum"
+    for ent in entregadores:
+        if len(ent['id_pedido']) > maior_volume:
+            maior_volume = len(ent['id_pedido'])
+            nome_destaque = ent['nome']
+            
+    print(f"Entregador com mais entregas ativas/alocadas: {nome_destaque} ({maior_volume} rotas)")
+
+def criar_id():
+    letra = random.choice(string.ascii_letters)
+    numeros = random.randint(0, 9999)
+    id = letra + str(numeros)
+    return id
+
+"Aqui acontece o cadastro de entregadores ---- APAGAR COMENTÁRIO DEPOIS"
+def cadastrar_ID ():
+    numeros = random.randint(1000, 9999)
+    id = str(numeros)
+    print(f"o id {id} foi gerado")
+    return id
+
+def buscar_entregadores():
+    print("Digite o ID do pedido:\n")
+    for i in entregadores:
+        busca = (input('Informe o ID do Pedido: '))
+        if i['id_entregador'] == busca:
+            return i
+
+def cadastrar_veiculo():
+    veiculos =  ["van", "moto", "carro"]
+    veiculo = input("o veículo é van, moto, ou carro? ").strip().lower()
+    if veiculo in veiculos:
+            return veiculo
+            
+    while veiculo not in veiculos:
+        print("O veículo é van, moto, ou carro?")
+        veiculo = input("escolha uma das três opções: ").strip().lower()
+        if veiculo in veiculos:
+            return veiculo
+        
+def cadastrar_nome():
+    nome_entregador = input("nome completo:")
+    print(f'''o entregador {nome_entregador} foi cadastrado ''')    
+    return nome_entregador
+
+def disponibilidade():
+    dispo = input("está disponível? (Sim ou Não)").strip() .title()
+    return dispo
+
+def pedidos_entregadores():
+    id_pedidos = input("id dos pedidos a serem cadastrados: ")
+    return id_pedidos
+            
+
+def menu_principal():
+        a = 0
+        while a != 7:
+            print("""
+                  --------------
+                  MENU PRINCIPAL
+                  --------------""")
+            a = int(input('1-Cadastrar Pedidos\n2-Cadastrar Entregador\n3-Atualizar Pedidos\n4-Consultas\n5-Relatórios\n6-Fechar Sistema\n\nEscolha uma opção: '))
+            match a:
+                case 1:
+                    cadastrar_pedido()
+                case 2:
+                    cadastrar_entregador()
+                case 3:
+                    atualizar_pedido()
+                case 4:
+                    consultas() 
+                case 5:
+                    relatorios()
+                case 6:
+                    break
+        
+
+menu_principal()
