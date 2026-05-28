@@ -71,20 +71,22 @@ def cadastrar_entregador():
             id = cadastrar_ID()
             novo_entregador['id_entregador'] = id
         else:
-            if key == 'veiculo':
-                veiculo = cadastrar_veiculo()
-                novo_entregador['veiculo'] = veiculo
+            if key == 'nome':
+                nome_ent = cadastrar_nome()
+                novo_entregador['nome'] = nome_ent
             else:
-                if key == 'id_pedido':
-                    pedidos = []
-                    num = int(input('Quantos pedidos esse entregador tem?'))
-                    for i in range(num):
-                        pedido = input(f'Digite o {i+1}º id: ')
-                        pedidos.append(pedido)
-                    novo_entregador['id_pedido'] = pedidos
-                else:       
-                    dado = input(f"Insira o dado do(a) {key}\n")
-                    novo_entregador[key] = dado
+                if key == 'veiculo':
+                    veiculo = cadastrar_veiculo()
+                    novo_entregador['veiculo'] = veiculo
+
+                else:
+                    if key == 'id_pedido':
+                        pedidos = entregadores_pedidos()
+                        novo_entregador['id_pedido'] = pedidos
+                    else:       
+                        if key == 'disponibilidade':
+                            disp = disponibilidade(pedidos)
+                            novo_entregador['disponibilidade'] = disp
     entregadores.append(novo_entregador)
     print(novo_entregador)
 
@@ -229,6 +231,23 @@ def cadastrar_nome():
     nome_entregador = input("nome completo:")
     print(f'''o entregador {nome_entregador} foi cadastrado ''')    
     return nome_entregador 
+
+def entregadores_pedidos():
+    pedidos = []
+    num = int(input('Quantos pedidos esse entregador tem? '))
+    for i in range(num):
+        pedido = input(f'Digite o {i+1}º id: ')
+        pedidos.append(pedido)
+    return pedidos  
+   
+def disponibilidade(pedidos):
+        tamanho = len(pedidos)
+        if tamanho >= 9:
+            return 'indisponível'
+        elif tamanho <= 9:
+            return 'disponível'
+
+
                
 
 def menu_principal():
