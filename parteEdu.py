@@ -58,6 +58,8 @@ def cadastrar_pedido():
             else:
                 dado = int(dado)
                 novo_pedido[key] = dado
+    pedidos.append(novo_pedido)
+    print("ID: ",novo_pedido['id_pedido'])
 
 def cadastrar_entregador():
     novo_entregador = entregador.copy()
@@ -76,35 +78,40 @@ def cadastrar_entregador():
     entregadores.append(novo_entregador)
     print(novo_entregador)
 
-def atualizar_pedido():
-    pedido = buscar_pedidos()
-    a = int(input("Oque voce deseja alterar?\n\n1-Alterar Status\n2-Cancelar Pedido\n3-Associar Entregador\n4-Remover Associação de Entregador"))
-    if a == 1:
-        novo_status = input("Digite o status: ")
-        pedido['status_pedido'] = novo_status
-        print(pedido)
-    else:
-        if a == 2:
-            pedido['status_pedido'] = 'Cancelado'
-            print(pedido)
+def atualizar_pedido(pedido):
+    if pedido:
+        a = int(input("Oque voce deseja alterar?\n\n1-Alterar Status\n2-Cancelar Pedido\n3-Associar Entregador\n4-Remover Associação de Entregador"))
+        if a == 1:
+            novo_status = input("Digite o status: ")
+            pedido['status_pedido'] = novo_status
+            print("ID: ",pedido['id_pedido'],'\nStatus: ',pedido['status_pedido'])
         else:
-            if a == 3:
-                id_entregador = int(input('Digite o id do entregador: '))
-                pedido['id_entregador'] = id_entregador
+            if a == 2:
+                pedido['status_pedido'] = 'Cancelado'
                 print(pedido)
-            else: 
-                if a == 4:
-                    pedido['id_entregador'] = None
+            else:
+                if a == 3:
+                    id_entregador = int(input('Digite o id do entregador: '))
+                    pedido['id_entregador'] = id_entregador
                     print(pedido)
+                else: 
+                    if a == 4:
+                        pedido['id_entregador'] = None
+                        print(pedido)
 
 
 def buscar_pedidos():
-    repeat = 0
-    print("Digite o ID do pedido:\n")
+    pedido = None
+    busca = input("Digite o ID do pedido:\n")
     for i in pedidos:
-        busca = (input('Informe o ID do Pedido: '))
+        print(i)
         if i['id_pedido'] == busca:
-            return i
+            pedido = i
+            return pedido
+    if not pedido:
+        print('Pedido não encontrado')
+        return False
+        
         
 def consultas():
     a = 0
@@ -168,7 +175,7 @@ def criar_id():
     return id
 
 "Aqui acontece o cadastro de entregadores ---- APAGAR COMENTÁRIO DEPOIS"
-def cadastrar_ID ():
+def cadastrar_ID():
     numeros = random.randint(1000, 9999)
     id = str(numeros)
     print(f"o id {id} foi gerado")
@@ -213,7 +220,8 @@ def menu_principal():
                 case 2:
                     cadastrar_entregador()
                 case 3:
-                    atualizar_pedido()
+                    pedido = buscar_pedidos()
+                    atualizar_pedido(pedido)
                 case 4:
                     consultas() 
                 case 5:
