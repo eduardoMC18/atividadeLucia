@@ -50,6 +50,8 @@ def cadastrar_pedido():
                     else:
                         novo_pedido[key] = dado
                         validacao = True
+            else:
+                novo_pedido[key] = dado
 
         else:
             dado = input(f"Insira o dado do(a) {key}: ")
@@ -79,6 +81,7 @@ def cadastrar_entregador():
     print(novo_entregador)
 
 def atualizar_pedido(pedido):
+    print(pedido)
     if pedido:
         a = int(input("Oque voce deseja alterar?\n\n1-Alterar Status\n2-Cancelar Pedido\n3-Associar Entregador\n4-Remover Associação de Entregador"))
         if a == 1:
@@ -150,6 +153,7 @@ def  relatorios():
     altas = 0
     for i in pedidos:
         status_contagem[i['status_pedido']] += 1
+        print(i['prioridade'])
         if i['prioridade'] == 'Alta':
             altas += 1
             
