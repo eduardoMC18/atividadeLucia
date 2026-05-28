@@ -64,12 +64,12 @@ def cadastrar_entregador():
     novo_entregador['id_pedido'] = []
     for key in novo_entregador:
         if key == 'id_entregador':
-            id = criar_id()
+            id = cadastrar_ID()
             novo_entregador['id_entregador'] = id
         else:
             if key == 'veiculo':
                 veiculo = cadastrar_veiculo()
-                novo_entregador['veiculo'] == veiculo
+                novo_entregador['veiculo'] = veiculo
             else:
                 dado = input(f"Insira o dado do(a) {key}\n")
                 novo_entregador[key] = dado
@@ -167,6 +167,13 @@ def criar_id():
     id = letra + str(numeros)
     return id
 
+"Aqui acontece o cadastro de entregadores ---- APAGAR COMENTÁRIO DEPOIS"
+def cadastrar_ID ():
+    numeros = random.randint(1000, 9999)
+    id = str(numeros)
+    print(f"o id {id} foi gerado")
+    return id
+
 def buscar_entregadores():
     print("Digite o ID do pedido:\n")
     for i in entregadores:
@@ -185,6 +192,11 @@ def cadastrar_veiculo():
         veiculo = input("escolha uma das três opções").strip().lower()
         if veiculo in veiculos:
             return veiculo
+        
+def cadastrar_nome():
+    nome_entregador = input("nome completo:")
+    print(f'''o entregador {nome_entregador} foi cadastrado ''')    
+    return nome_entregador 
                
 
 def menu_principal():
