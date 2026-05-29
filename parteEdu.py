@@ -233,12 +233,23 @@ def cadastrar_nome():
     return nome_entregador 
 
 def entregadores_pedidos():
-    pedidos = []
-    num = int(input('Quantos pedidos esse entregador tem? '))
-    for i in range(num):
-        pedido = input(f'Digite o {i+1}º id: ')
-        pedidos.append(pedido)
-    return pedidos  
+    orders = []
+    for i in pedidos:
+        id_pedido = i['id_pedido']
+        print('ID do pedido:', id_pedido)
+    num = int(input('Quantos pedidos deseja associar a esse entregador? '))
+    while num > 10:
+        print('Máximo de 10 pedidos por entregador')
+        num = int(input('Quantos pedidos deseja associar a esse entregador? '))
+    for i in range (num):
+        encontrado = False
+        while encontrado == False:
+            pedido = input(f'Digite o {i+1}º id: ')
+            for k in pedidos:
+                if k['id_pedido'] == pedido:
+                    orders.append(pedido)
+                    encontrado = True
+    return orders  
    
 def disponibilidade(ped):
         tamanho = len(ped)
@@ -246,9 +257,6 @@ def disponibilidade(ped):
             return 'indisponível'
         elif tamanho <= 9:
             return 'disponível'
-
-
-               
 
 def menu_principal():
         a = 0
