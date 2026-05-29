@@ -3,22 +3,42 @@ aos times foram organizados da forma como surgiram nas reuniões internas (muita
 incompletos, contraditórios ou pouco objetivos)."
 ."Essas decisões tomadas pelo time devem ser conversadas com a empresa (professora) e
 justificadas no relatório a ser entregue"
-
+________________________________
 .1- PRIORIDADE - alguns gestores afirmam que os pedidos devem ser priorizados por urgência;
 outros defendem ordem de chegada.
 -> proposta: em geral, as entregas devem acontecer por ordem de chegada (prioridade normal). 
 Mas caso a pessoa pague o frete mais rápido, ela entra primeiro na fila,
 fazendo com que seu pedido seja mandado para o transporte antes de uma entrega com frete menor.  
-
+________________________________
 .2 - QUANTIDADE - Alguns acreditam que entregadores não devem assumir múltiplas rotas
 simultaneamente; outros disseram que isso depende da carga.
 -> dividir o local em regioes N, S, L, O. as rotas assumidas devem ser da mesma região,
 podendo assumir X entregas por dia.
-
+____________________________
 .3 - Avaliar a quantidade de pedidos que um entregador pode assumir
 - a possibilidade ou não de um pedido cancelado ser reativado
 - a possibilidade de alterar automaticamente a ordem de entrega dos pedidos.
-
+______________________________
 .4 - certas operações só fazem sentido em horários específicos.
 -> pode usar datetime?
+_______________________________
+5 - como cadastrar entregadores sem pedidos, e como cadastrar pedidos sem entregadores?
+
+"• Cadastro de Pedidos
+Permite a inserção de novos pedidos, que devem possuir as seguintes informações:
+• ID do pedido (deve iniciar por uma letra e conter quatro valores numéricos)
+• Nome do Cliente
+• Endereço
+• Prioridade (Alta, Normal)
+• Descrição do Pedido
+• Status do Pedido (Pendente, Em Rota, Entregue, Cancelado)
+• ID do Entregador
+
+• Cadastro de Entregadores
+Permite o Cadastro dos Entregadores
+• ID do Entregador (constituído de 4 dígitos)
+• Nome do entregador
+• Veículo (carro, van, moto)
+• ID dos Pedidos a serem entregues
+• Disponibilidade"
 
