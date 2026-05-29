@@ -8,7 +8,8 @@ pedido = {
         'prioridade': 0,
         'descricao_pedido': 0,
         'status_pedido': 'Pendente',
-        'id_entregador': 0
+        'id_entregador': 0,
+        'taxa_frete': 0
     }
 entregador = {
     'id_entregador': 0,
@@ -18,7 +19,32 @@ entregador = {
     'disponibilidade': 0
 }
 pedidos = []
+fila_alta = []
+fila_normal = []
 entregadores = []
+
+taxa_frete_base  = 5.00
+taxa_frete_extra =  10.00
+
+def inserir_na_fila(novo_pedido):
+    if novo_pedido['prioridade'] == 'Alta':
+        fila_alta.append(novo_pedido)
+        pos = len(fila_alta)
+    else:
+        fila_normal.append(novo_pedido)
+        pos = len(fila_alta) + len(fila_normal)
+    print(f"  >> Posição na fila: {pos}º (prioridade {novo_pedido['prioridade']}, frete R$ {novo_pedido['taxa_frete']:.2f})")
+
+def exibir_fila():
+    fila_completa = fila_alta + fila_normal
+    if not fila_completa:
+        print("A fila está vazia.")
+        return
+    print("\n--- FILA DE PEDIDOS ---")
+    pos = 1
+    for p in fila_completa:
+        print(f"  {pos}. ID: {p['id_pedido']} | Cliente: {p['nome_cliente']} | Prioridade: {p['prioridade']} | Frete: R$ {p['taxa_frete']:.2f}")
+        pos += 1
 
 def cadastrar_pedido():
     novo_pedido = pedido.copy()
@@ -37,6 +63,7 @@ def cadastrar_pedido():
                     else:
                         novo_pedido[key] = dado
                         validacao = True
+                        
             else:
                 novo_pedido[key] = dado
         elif key == 'prioridade':
@@ -62,6 +89,19 @@ def cadastrar_pedido():
                 novo_pedido[key] = dado
     pedidos.append(novo_pedido)
     print("ID: ",novo_pedido['id_pedido'])
+
+    if novo_pedido['prioridade'] == 'Alta':
+        novo_pedido['taxa_frete'] = taxa_frete_base + taxa_frete_extra
+        print(f"\n  Taxa de frete: R$ {novo_pedido['taxa_frete']:.2f} "
+              f"(R$ {taxa_frete_base:.2f} base + R$ {taxa_frete_extra:.2f} pela prioridade Alta)")
+    else:
+        novo_pedido['taxa_frete'] = taxa_frete_base
+        print(f"\n  Taxa de frete: R$ {novo_pedido['taxa_frete']:.2f} (frete padrão)")
+
+    pedidos.append(novo_pedido)
+    inserir_na_fila(novo_pedido)
+    print("ID: ", novo_pedido['id_pedido'])
+
 
 def cadastrar_entregador():
     novo_entregador = entregador.copy()
