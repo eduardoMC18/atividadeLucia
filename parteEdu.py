@@ -240,8 +240,8 @@ def entregadores_pedidos():
         pedidos.append(pedido)
     return pedidos  
    
-def disponibilidade(pedidos):
-        tamanho = len(pedidos)
+def disponibilidade(ped):
+        tamanho = len(ped)
         if tamanho >= 9:
             return 'indisponível'
         elif tamanho <= 9:
