@@ -67,12 +67,22 @@ def cadastrar_entregador():
             id = cadastrar_ID()
             novo_entregador['id_entregador'] = id
         else:
-            if key == 'veiculo':
-                veiculo = cadastrar_veiculo()
-                novo_entregador['veiculo'] = veiculo
+            if key == 'nome':
+                nome_ent = cadastrar_nome()
+                novo_entregador['nome'] = nome_ent
             else:
-                dado = input(f"Insira o dado do(a) {key}\n")
-                novo_entregador[key] = dado
+                if key == 'veiculo':
+                    veiculo = cadastrar_veiculo()
+                    novo_entregador['veiculo'] = veiculo
+
+                else:
+                    if key == 'id_pedido':
+                        pedidos = entregadores_pedidos()
+                        novo_entregador['id_pedido'] = pedidos
+                    else:       
+                        if key == 'disponibilidade':
+                            disp = disponibilidade(pedidos)
+                            novo_entregador['disponibilidade'] = disp
     entregadores.append(novo_entregador)
     print(novo_entregador)
 
@@ -167,12 +177,6 @@ def criar_id():
     id = letra + str(numeros)
     return id
 
-"Aqui acontece o cadastro de entregadores ---- APAGAR COMENTÁRIO DEPOIS"
-def cadastrar_ID ():
-    numeros = random.randint(1000, 9999)
-    id = str(numeros)
-    print(f"o id {id} foi gerado")
-    return id
 
 def buscar_entregadores():
     print("Digite o ID do pedido:\n")
@@ -180,23 +184,59 @@ def buscar_entregadores():
         busca = (input('Informe o ID do Pedido: '))
         if i['id_entregador'] == busca:
             return i
+        
+"Aqui acontece o cadastro de entregadores ---- APAGAR COMENTÁRIO DEPOIS"
+def cadastrar_ID ():
+    numeros = random.randint(1000, 9999)
+    id = str(numeros)
+    print(f"o id {id} foi gerado")
+    return id
 
 def cadastrar_veiculo():
     veiculos =  ["van", "moto", "carro"]
-    veiculo = input("o veículo é van, moto, ou carro?").strip().lower()
+    veiculo = input("o veículo é van, moto, ou carro? ").strip().lower()
     if veiculo in veiculos:
             return veiculo
-            
+
     while veiculo not in veiculos:
         print("O veículo é van, moto, ou carro?")
-        veiculo = input("escolha uma das três opções").strip().lower()
+        veiculo = input("escolha uma das três opções ").strip().lower()
         if veiculo in veiculos:
             return veiculo
-        
+
 def cadastrar_nome():
-    nome_entregador = input("nome completo:")
+    nome_entregador = input("nome completo: ").title()
     print(f'''o entregador {nome_entregador} foi cadastrado ''')    
     return nome_entregador 
+
+def entregadores_pedidos():
+    orders = []
+    if pedidos == []:
+        print("fNão há nenhum pedido cadastrado")
+        return orders
+    for i in pedidos:
+        id_pedido = i['id_pedido']
+        print('ID do pedido:', id_pedido)
+    num = int(input('Quantos pedidos deseja associar a esse entregador? '))
+    while num > 10:
+        print('Máximo de 10 pedidos por entregador')
+        num = int(input('Quantos pedidos deseja associar a esse entregador? '))
+    for i in range (num):
+        encontrado = False
+        while encontrado == False:
+            pedido = input(f'Digite o {i+1}º id: ')
+            for k in pedidos:
+                if k['id_pedido'] == pedido:
+                    orders.append(pedido)
+                    encontrado = True
+    return orders
+
+def disponibilidade(ped):
+        tamanho = len(ped)
+        if tamanho >= 9:
+            return 'indisponível'
+        elif tamanho <= 9:
+            return 'disponível'
                
 
 def menu_principal():
