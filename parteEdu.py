@@ -62,6 +62,8 @@ def cadastrar_pedido():
 def cadastrar_entregador():
     novo_entregador = entregador.copy()
     novo_entregador['id_pedido'] = []
+    lista_p = []
+
     for key in novo_entregador:
         if key == 'id_entregador':
             id = cadastrar_ID()
@@ -77,11 +79,11 @@ def cadastrar_entregador():
 
                 else:
                     if key == 'id_pedido':
-                        pedidos = entregadores_pedidos()
-                        novo_entregador['id_pedido'] = pedidos
+                        lista_p = entregadores_pedidos()
+                        novo_entregador['id_pedido'] = lista_p
                     else:       
                         if key == 'disponibilidade':
-                            disp = disponibilidade(pedidos)
+                            disp = disponibilidade(lista_p)
                             novo_entregador['disponibilidade'] = disp
     entregadores.append(novo_entregador)
     print(novo_entregador)
