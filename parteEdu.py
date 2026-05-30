@@ -88,25 +88,27 @@ def cadastrar_entregador():
 
 def atualizar_pedido():
     pedido = buscar_pedidos()
-    a = int(input("Oque voce deseja alterar?\n\n1-Alterar Status\n2-Cancelar Pedido\n3-Associar Entregador\n4-Remover Associação de Entregador"))
-    if a == 1:
-        novo_status = input("Digite o status: ")
-        pedido['status_pedido'] = novo_status
-        print(pedido)
-    else:
-        if a == 2:
+    print("1 para alterar status")
+    print("2 para cancelar pedido")
+    print("3 para associar entregador")
+    print("4 para remover associação de entregador")
+    a = int(input("Digite 1,2,3 ou 4: "))
+    
+    match a:
+        case 1:
+            novo_status = input("Digite o status: ")
+            pedido['status_pedido'] = novo_status
+            print(pedido)
+        case 2:
             pedido['status_pedido'] = 'Cancelado'
             print(pedido)
-        else:
-            if a == 3:
-                id_entregador = int(input('Digite o id do entregador: '))
-                pedido['id_entregador'] = id_entregador
-                print(pedido)
-            else: 
-                if a == 4:
-                    pedido['id_entregador'] = None
-                    print(pedido)
-
+        case 3:
+            id_entregador = int(input('Digite o id do entregador: '))
+            pedido['id_entregador'] = id_entregador
+            print(pedido)
+        case 4:
+            pedido['id_entregador'] = None
+            print(pedido)
 
 def buscar_pedidos():
     repeat = 0
