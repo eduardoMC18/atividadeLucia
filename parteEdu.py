@@ -8,14 +8,14 @@ pedido = {
         'prioridade': 0,
         'descricao_pedido': 0,
         'status_pedido': 'Pendente',
-        'id_entregador': 0
+        'id_entregador': []
     }
 entregador = {
     'id_entregador': 0,
     'nome': 0,
     'veiculo': 0,
     'id_pedido': [],
-    'disponibilidade': 0
+    'disponibilidade': 'disponível'
 }
 pedidos = []
 entregadores = []
@@ -27,20 +27,22 @@ def cadastrar_pedido():
         if key == 'id_pedido':
             novo_pedido['id_pedido'] = criar_id()
         elif key == 'status_pedido':
-            dado = input(f"Insira o dado do(a) {key}: ")
+            print("'Pendente', 'Em Rota', 'Entregue', 'Cancelado'")
+            dado = input(f"Qual o status do pedido? ").strip().title()
             if dado not in ['Pendente', 'Em Rota', 'Entregue', 'Cancelado']:
                 validacao = False
                 while not validacao:
-                    dado = input('Por favor, escolha entre "Pendente", "Em Rota", "Entregue" ou "Cancelado"\n')
+                    dado = input('Por favor, escolha entre "Pendente", "Em Rota", "Entregue" ou "Cancelado"\n').strip().title()
                     if dado not in ['Pendente', 'Em Rota', 'Entregue', 'Cancelado']:
                         validacao = False
                     else:
-                        novo_pedido[key] = dado
+                        novo_pedido['status_pedido'] = dado
                         validacao = True
             else:
                 novo_pedido[key] = dado
         elif key == 'prioridade':
-            dado = input(f"Insira o dado do(a) {key}: ")
+            print("A prioridade deve ser Alta ou Normal!")
+            dado = input(f"Insira o dado do(a) {key}: ").strip().title()
             if dado not in ['Alta', 'Normal']:
                 validacao = False
                 while not validacao:
@@ -48,19 +50,50 @@ def cadastrar_pedido():
                     if dado not in ['Alta', 'Normal']:
                         validacao = False
                     else:
-                        novo_pedido[key] = dado
+                        novo_pedido['prioridade'] = dado
                         validacao = True
             else:
                 novo_pedido[key] = dado
-        else:
-            dado = input(f"Insira o dado do(a) {key}: ")
-            if key in ['nome_cliente', 'endereco', 'descricao_pedido', 'status_pedido']:
-                novo_pedido[key] = dado
+        elif key == 'descricao_pedido':
+            dado = input(f"Qual é o produto a ser entregue? ")
+            novo_pedido['descricao_pedido'] = dado
+        elif key == 'endereco':
+            dado = input("Qual o endereço? ")
+            novo_pedido['endereco'] = dado
+        elif key == 'nome_cliente':
+            dado = input("Qual o nome do cliente? ")
+            novo_pedido['nome_cliente'] = dado
+        elif key == 'id_entregador':
+            if entregadores == 0:
+                print("Nenhum entregador foi cadastrado ainda")
             else:
-                dado = int(dado)
-                novo_pedido[key] = dado
+                disponiveis = []
+                for i in entregadores:
+                    if i['disponibilidade'] == 'disponível':
+                        disponiveis.append(i)
+                if disponiveis == []:
+                    print("Todos os entregadores estão indisponíveis.")
+                else:
+                    for i in disponiveis:
+                        print('ID do entregador:', i['id_entregador'])
+                    ids_validos = []
+                    for i in disponiveis:
+                        ids_validos.append(i['id_entregador'])
+                    dado = input("Digite o ID do entregador: ")
+                    while dado not in ids_validos:
+                        print("ID inválido, tente novamente.")
+                        dado = input("Digite o ID do entregador: ")
+                    novo_pedido['id_entregador'] = dado
+                    for i in entregadores:
+                        if i['id_entregador'] == dado:
+                            i['id_pedido'].append(novo_pedido['id_pedido'])
+                            i['disponibilidade'] = disponibilidade(i['id_pedido'])
+                            break
+            
+
     pedidos.append(novo_pedido)
     print(f'ID do pedido criado: {novo_pedido["id_pedido"]}')
+    print(novo_pedido)
 
 def cadastrar_entregador():
     novo_entregador = entregador.copy()
@@ -144,7 +177,7 @@ def consultas():
                 buscar_pedidos()
             case 4:
                 for i in entregadores:
-                    if i['disponibilidade'] == 'Disponivel':
+                    if i['disponibilidade'] == 'disponível':
                         print(i)
             case 5:
                  for i in entregadores:
@@ -230,12 +263,18 @@ def cadastrar_nome():
 
 def entregadores_pedidos():
     orders = []
-    if pedidos == []:
-        print("Ainda não foi criado nenhum pedido")
-        return []
+    pedidos_livres = []
     for i in pedidos:
-        id_pedido = i['id_pedido']
-        print('ID do pedido:', id_pedido)
+        if i['id_entregador'] == []:
+            pedidos_livres.append(i)
+    
+    if pedidos_livres == []:
+        print("Não há pedidos sem entregador.")
+        return []
+    
+    for i in pedidos_livres:
+        print('ID do pedido:', i['id_pedido'])
+    
     num = int(input('Quantos pedidos deseja associar a esse entregador? '))
     while num > 10:
         print('Máximo de 10 pedidos por entregador')
@@ -243,22 +282,22 @@ def entregadores_pedidos():
     i = 0
     while i < num:
         pedido = input(f'Digite o {i+1}º id: ')
-        for k in pedidos:
+        for k in pedidos_livres:
             if k['id_pedido'] == pedido:
                 orders.append(pedido)
+                k['id_entregador'] = 'associado'
                 break
         else:
-            print('ID não existe')
+            print('ID não existe ou já tem entregador')
             continue
         i += 1
     return orders
 
 def disponibilidade(ped):
-        tamanho = len(ped)
-        if tamanho >= 9:
-            return 'indisponível'
-        elif tamanho <= 9:
-            return 'disponível'
+    tamanho = len(ped)
+    if tamanho >= 9:
+        return 'indisponível'
+    return 'disponível'
                
 
 def menu_principal():
