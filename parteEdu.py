@@ -126,6 +126,9 @@ def cadastrar_entregador():
 
 def atualizar_pedido():
     pedido = buscar_pedidos()
+    if pedido is None:
+        print("Não há nenhum pedido, voltando ao menu principal...")
+        return 
     print("1 para alterar status")
     print("2 para cancelar pedido")
     print("3 para associar entregador")
@@ -149,26 +152,31 @@ def atualizar_pedido():
             print(pedido)
 
 def buscar_pedidos():
+    ped = None 
+    if pedidos == []:
+        print("nenhumn pedido foi cadastrado")
+        return  
     busca = input('Informe o ID do Pedido: ')
-    pedido = None
     for i in pedidos:
         if i['id_pedido'] == busca:
-            pedido = i
+            ped = i
+            print(ped)
             break
-    if not pedido:
+    if not ped:
         print("\nPedido não encontrado\n")
         return None
-    return pedido
+    return ped
         
 def consultas():
     a = 0
-    print('1-Pendentes')
-    print('2-Entregue')
-    print('3-Buscar Pedido')
-    print('4- Buscar entregadores')
-    print('5-Voltar ao Menu')
-    while a != 5:
-        a = int(input("digite de 1 a 5: "))
+    print('1- Pendentes')
+    print('2- Entregue')
+    print('3- Buscar Pedido')
+    print('4- Buscar entregadores disponíveis')
+    print('5- Todas as entregas por entregador ')
+    print('6- Voltar ao Menu')
+    while a != 6:
+        a = int(input("digite de 1 a 6: "))
         match a:
             case 1:
                 alta = []
@@ -189,16 +197,24 @@ def consultas():
             case 3:
                 buscar_pedidos()
             case 4:
+                pedido = None
+
                 for i in entregadores:
                     if i['disponibilidade'] == 'disponível':
                         print(i)
+                    pedido = i
+                if pedido == None:
+                    print("Não há entregadores disponíveis")
             case 5:
                  for i in entregadores:
                     numero_pedido = 0
-                    for w in i['id_entregador']:
+                    for w in i['id_pedido']:
                         numero_pedido += 1
                         print('Id do pedido entregue:', w)
                     print('Total de pedidos entregues:', numero_pedido)
+            case 6:
+                pass
+
                          
     menu_principal()
 
