@@ -50,14 +50,17 @@ def cadastrar_pedido():
                     else:
                         novo_pedido[key] = dado
                         validacao = True
-
+            else:
+                novo_pedido[key] = dado
         else:
             dado = input(f"Insira o dado do(a) {key}: ")
-            if novo_pedido[key] == 'nome_cliente' or 'endereco' or 'descricao_pedido' or 'status_pedido':
+            if key in ['nome_cliente', 'endereco', 'descricao_pedido', 'status_pedido']:
                 novo_pedido[key] = dado
             else:
                 dado = int(dado)
                 novo_pedido[key] = dado
+    pedidos.append(novo_pedido)
+    print(f'ID do pedido criado: {novo_pedido["id_pedido"]}')
 
 def cadastrar_entregador():
     novo_entregador = entregador.copy()
@@ -113,12 +116,16 @@ def atualizar_pedido():
             print(pedido)
 
 def buscar_pedidos():
-    repeat = 0
-    print("Digite o ID do pedido:\n")
+    busca = input('Informe o ID do Pedido: ')
+    pedido = None
     for i in pedidos:
-        busca = (input('Informe o ID do Pedido: '))
         if i['id_pedido'] == busca:
-            return i
+            pedido = i
+            break
+    if not pedido:
+        print("\nPedido não encontrado\n")
+        return None
+    return pedido
         
 def consultas():
     a = 0
@@ -150,7 +157,7 @@ def consultas():
     menu_principal()
 
 
-def  relatorios():
+def relatorios():
     print(f"\nTotal de pedidos cadastrados: {len(pedidos)}")
     
     status_contagem = {'Pendente': 0, 'Em Rota': 0, 'Entregue': 0, 'Cancelado': 0}
@@ -216,8 +223,8 @@ def cadastrar_nome():
 def entregadores_pedidos():
     orders = []
     if pedidos == []:
-        print("fNão há nenhum pedido cadastrado")
-        return orders
+        print("Ainda não foi criado nenhum pedido")
+        return []
     for i in pedidos:
         id_pedido = i['id_pedido']
         print('ID do pedido:', id_pedido)
@@ -225,14 +232,17 @@ def entregadores_pedidos():
     while num > 10:
         print('Máximo de 10 pedidos por entregador')
         num = int(input('Quantos pedidos deseja associar a esse entregador? '))
-    for i in range (num):
-        encontrado = False
-        while encontrado == False:
-            pedido = input(f'Digite o {i+1}º id: ')
-            for k in pedidos:
-                if k['id_pedido'] == pedido:
-                    orders.append(pedido)
-                    encontrado = True
+    i = 0
+    while i < num:
+        pedido = input(f'Digite o {i+1}º id: ')
+        for k in pedidos:
+            if k['id_pedido'] == pedido:
+                orders.append(pedido)
+                break
+        else:
+            print('ID não existe')
+            continue
+        i += 1
     return orders
 
 def disponibilidade(ped):
