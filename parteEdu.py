@@ -22,7 +22,7 @@ entregadores = []
 
 def cadastrar_pedido():
     novo_pedido = pedido.copy()
-
+    novo_pedido['id_entregador'] = []
     for key in novo_pedido:
         if key == 'id_pedido':
             novo_pedido['id_pedido'] = criar_id()
@@ -46,7 +46,7 @@ def cadastrar_pedido():
             if dado not in ['Alta', 'Normal']:
                 validacao = False
                 while not validacao:
-                    dado = input('Por favor, escolha entre "Alta" ou "Normal"\n')
+                    dado = input('Por favor, escolha entre "Alta" ou "Normal"\n').strip().title()
                     if dado not in ['Alta', 'Normal']:
                         validacao = False
                     else:
@@ -162,13 +162,26 @@ def buscar_pedidos():
         
 def consultas():
     a = 0
-    while a != 4:
-        a = int(input('1-Pendentes\n2-Entregue\n3-Buscar Pedido\n4-Disponivel\n5-Voltar ao Menu\n\nEscolha uma opção: '))
+    print('1-Pendentes')
+    print('2-Entregue')
+    print('3-Buscar Pedido')
+    print('4- Buscar entregadores')
+    print('5-Voltar ao Menu')
+    while a != 5:
+        a = int(input("digite de 1 a 5: "))
         match a:
             case 1:
+                alta = []
+                normal = []
                 for i in pedidos:
                     if i['status_pedido'] == 'Pendente':
-                        print(i)
+                        if i['prioridade'] == 'Alta':
+                            alta.append(i)
+                        else:
+                            normal.append(i)
+                for i in alta + normal:
+                    print(i)                    
+    
             case 2:
                 for i in pedidos:
                     if i['status_pedido'] == 'Entregue':
@@ -217,8 +230,18 @@ def relatorios():
 
 def criar_id():
     letra = random.choice(string.ascii_letters)
-    numeros = random.randint(0, 9999)
+    numeros = random.randint(1000, 9999)
     id = letra + str(numeros)
+    repetiu = True
+    while repetiu == True:
+        repetiu = False
+        for p in pedidos:
+            if id == p['id_pedido']:
+                letra = random.choice(string.ascii_letters)
+                numeros = random.randint(1000, 9999)
+                id = letra + str(numeros)
+                repetiu = True
+    print(f"o id {id} foi gerado")
     return id
 
 
@@ -243,6 +266,7 @@ def cadastrar_ID ():
                 repetiu = True
     print(f"o id {id} foi gerado")
     return id
+
 
 def cadastrar_veiculo():
     veiculos =  ["van", "moto", "carro"]
