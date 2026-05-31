@@ -181,12 +181,14 @@ def consultas():
             case 1:
                 alta = []
                 normal = []
+                cont = 0
                 for i in pedidos:
+                    cont += 1
                     if i['status_pedido'] == 'Pendente':
                         if i['prioridade'] == 'Alta':
-                            alta.append(i)
+                            alta.append(f'{cont}º {i}')
                         else:
-                            normal.append(i)
+                            normal.append(f'{cont}º {i}')
                 for i in alta + normal:
                     print(i)                    
     
