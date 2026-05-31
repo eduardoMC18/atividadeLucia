@@ -64,7 +64,7 @@ def cadastrar_pedido():
             dado = input("Qual o nome do cliente? ")
             novo_pedido['nome_cliente'] = dado
         elif key == 'id_entregador':
-            if entregadores == 0:
+            if entregadores == []:
                 print("Nenhum entregador foi cadastrado ainda")
             else:
                 disponiveis = []
@@ -115,7 +115,7 @@ def cadastrar_entregador():
 
                 else:
                     if key == 'id_pedido':
-                        lista_p = entregadores_pedidos()
+                        lista_p = entregadores_pedidos(novo_entregador['id_entregador'])
                         novo_entregador['id_pedido'] = lista_p
                     else:       
                         if key == 'disponibilidade':
@@ -261,7 +261,7 @@ def cadastrar_nome():
     print(f'''o entregador {nome_entregador} foi cadastrado ''')    
     return nome_entregador 
 
-def entregadores_pedidos():
+def entregadores_pedidos(id_ent):
     orders = []
     pedidos_livres = []
     for i in pedidos:
@@ -269,23 +269,27 @@ def entregadores_pedidos():
             pedidos_livres.append(i)
     
     if pedidos_livres == []:
-        print("Não há pedidos sem entregador.")
+        print("Não há pedidos disponíveis.")
         return []
     
     for i in pedidos_livres:
         print('ID do pedido:', i['id_pedido'])
     
     num = int(input('Quantos pedidos deseja associar a esse entregador? '))
-    while num > 10:
-        print('Máximo de 10 pedidos por entregador')
-        num = int(input('Quantos pedidos deseja associar a esse entregador? '))
+    while num > 10 or num > len(pedidos_livres):
+        if num > 10:
+            print('Máximo de 10 pedidos por entregador')
+            num = int(input('Quantos pedidos deseja associar a esse entregador? '))
+        else:
+            print(f'Máximo de {len(pedidos_livres)} pedidos disponíveis')
+            num = int(input('Quantos pedidos deseja associar a esse entregador? '))
     i = 0
     while i < num:
         pedido = input(f'Digite o {i+1}º id: ')
         for k in pedidos_livres:
             if k['id_pedido'] == pedido:
                 orders.append(pedido)
-                k['id_entregador'] = 'associado'
+                k['id_entregador'] = id_ent
                 break
         else:
             print('ID não existe ou já tem entregador')
