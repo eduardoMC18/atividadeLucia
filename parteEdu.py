@@ -200,6 +200,14 @@ def buscar_entregadores():
 def cadastrar_ID ():
     numeros = random.randint(1000, 9999)
     id = str(numeros)
+    repetiu = True
+    while repetiu == True:
+        repetiu = False
+        for entregador in entregadores:
+            if id == entregador["id_entregador"]:
+                numeros = random.randint(1000, 9999)
+                id = str(numeros)
+                repetiu = True
     print(f"o id {id} foi gerado")
     return id
 
