@@ -202,6 +202,7 @@ def consultas():
                 alta = []
                 normal = []
                 cont = 0
+                print('\n')
                 for i in pedidos:
                     cont += 1
                     if i['status_pedido'] == 'Pendente':
@@ -213,12 +214,14 @@ def consultas():
                     print(i)                  
     
             case 2:
+                print('\n')
                 for i in pedidos:
                     if i['status_pedido'] == 'Entregue':
                         print(i)
             case 3:
                 buscar_pedidos()
             case 4:
+                print('\n')
                 disponiveis = []
                 for i in entregadores:
                     if i['disponibilidade'] == 'disponível':
@@ -227,6 +230,7 @@ def consultas():
                 if disponiveis == []:
                     print("Não há entregadores disponíveis")
             case 5:
+                 print('\n')
                  for i in entregadores:
                     numero_pedido = 0
                     for w in i['id_pedido']:
