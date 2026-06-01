@@ -137,7 +137,10 @@ def atualizar_pedido():
     
     match a:
         case 1:
-            novo_status = input("Digite o status: ")
+            novo_status = input("Digite o status (Pendente, Em Rota, Entregue, Cancelado): ").strip().title()
+            while novo_status not in ['Pendente', 'Em Rota', 'Entregue', 'Cancelado']:
+                print("Status inválido!")
+                novo_status = input("Digite o status (Pendente, Em Rota, Entregue, Cancelado): ").strip().title()
             pedido['status_pedido'] = novo_status
             print(pedido)
         case 2:
