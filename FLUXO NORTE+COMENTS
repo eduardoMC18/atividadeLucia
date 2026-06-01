@@ -137,37 +137,37 @@ def atualizar_pedido():
     match a:
         case 1:
             novo_status = input("Digite o status (Pendente, Em Rota, Entregue, Cancelado): ").strip().title()
-            while novo_status not in ['Pendente', 'Em Rota', 'Entregue', 'Cancelado']:
+            while novo_status not in ['Pendente', 'Em Rota', 'Entregue', 'Cancelado']:      #valida se o status existe
                 print("Status inválido!")
                 novo_status = input("Digite o status (Pendente, Em Rota, Entregue, Cancelado): ").strip().title()
-            pedido['status_pedido'] = novo_status
+            pedido['status_pedido'] = novo_status   #atualiza em pedido, na chave "status_pedido", o status
             print(pedido)
         case 2:
-            pedido['status_pedido'] = 'Cancelado'
-            for i in entregadores:
-                if pedido['id_pedido'] in i['id_pedido']:
-                    i['id_pedido'].remove(pedido['id_pedido'])
-                    i['disponibilidade'] = disponibilidade(i['id_pedido'])
+            pedido['status_pedido'] = 'Cancelado'       #muda o staus para cancelado
+            for i in entregadores:          #percorre a lista de entregadores
+                if pedido['id_pedido'] in i['id_pedido']:       #se o id do pedido estiver no entregador:
+                    i['id_pedido'].remove(pedido['id_pedido'])  #remove o pedido da lista do entregador
+                    i['disponibilidade'] = disponibilidade(i['id_pedido'])  #recalcula a disponibilidade dele
                     break
-            pedido['id_entregador'] = []
+            pedido['id_entregador'] = []        #esvazia o id do entregador no pedido, 
             print(pedido)
         case 3:
-            if entregadores == []:
+            if entregadores == []:      #se a lista de entregadores estiver vazia:
                 print("Nenhum entregador cadastrado, voltando ao menu.")
                 return
-            for i in entregadores:
-                if i['disponibilidade'] == 'disponível':
-                    print('ID do entregador:', i['id_entregador'])
-            id_entregador = input('Digite o id do entregador: ')
-            pedido['id_entregador'] = id_entregador
+            for i in entregadores:      #percorre os entregadores
+                if i['disponibilidade'] == 'disponível':    #mostra apenas os entregadores livres
+                    print('ID do entregador:', i['id_entregador'])  #mostra apenas os ids dos entregadoes
+            id_entregador = input('Digite o id do entregador: ')    #insira o id do enregador
+            pedido['id_entregador'] = id_entregador #adiciona em pedido, na chave "id_entregador", o id do entregador
             print(pedido)
         case 4:
             for i in entregadores:
-                if pedido['id_pedido'] in i['id_pedido']:
-                    i['id_pedido'].remove(pedido['id_pedido'])
-                    i['disponibilidade'] = disponibilidade(i['id_pedido'])
+                if pedido['id_pedido'] in i['id_pedido']:   #procura o pedido nos pedidos cadastrados em entregadores
+                    i['id_pedido'].remove(pedido['id_pedido'])   #remove o pedido do dicionario
+                    i['disponibilidade'] = disponibilidade(i['id_pedido'])  #atualiza a disponibilidade do pedido
                     break
-            pedido['id_entregador'] = None
+            pedido['id_entregador'] = None  #define o entregador do pedido como None
             print(pedido)
 
 def buscar_pedidos():
@@ -328,47 +328,47 @@ def cadastrar_nome():
     return nome_entregador 
 
 def entregadores_pedidos(id_ent):
-    orders = []
-    pedidos_livres = []
-    for i in pedidos:
-        if i['id_entregador'] == []:
-            pedidos_livres.append(i)
+    orders = []                                 # cria a lista que vai guardar os ids dos pedidos escolhidos
+    pedidos_livres = []                         # cria uma lista para filtrar os pedidos sem entregador
+    for i in pedidos:                           # percorre a lista geral de todos os pedidos (i é o dicionario do pedido)
+        if i['id_entregador'] == []:            # se o pedido nao tiver nenhum entregador associado (lista vazia):
+            pedidos_livres.append(i)            # adiciona o dicionario do pedido na lista de pedidos livres
     
-    if pedidos_livres == []:
-        print("Não há pedidos disponíveis.")
-        return []
+    if pedidos_livres == []:                    # se a lista de pedidos livres continuar vazia:
+        print("Não há pedidos disponíveis.")    
+        return []                               # encerra a função devolvendo uma lista vazia
     
-    alta = []
-    normal = []
-    for i in pedidos_livres:
-        if i['prioridade'] == 'Alta':
-            alta.append(i)
+    alta = []                                   # cria uma lista para separar pedidos de alta prioridade
+    normal = []                                 # cria uma lista para separar pedidos de prioridade normal
+    for i in pedidos_livres:                    # percorre a lista de pedidos que estao sem entregador
+        if i['prioridade'] == 'Alta':           # i é odicionário pedido, se o índice dele for alta, adiciona na lista alta
+            alta.append(i)                      # joga o dicionario do pedido na lista alta
         else:
-            normal.append(i)
-    for i in alta + normal:
-        print('ID do pedido:', i['id_pedido'])
+            normal.append(i)                    # joga o dicionario do pedido na lista normal
+    for i in alta + normal:                     # junta as listas mostrando os de alta prioridade primeiro
+        print('ID do pedido:', i['id_pedido'])  # exibe na tela o ID de cada pedido disponivel
     
-    num = int(input('Quantos pedidos deseja associar a esse entregador? '))
-    while num > 10 or num > len(pedidos_livres):
+    num = int(input('Quantos pedidos deseja associar a esse entregador? ')) # recebe a quantidade de entregas desejada
+    while num > 10 or num > len(pedidos_livres): # valida se a quantidade nao ultrapassa o limite ou o total disponivel
         if num > 10:
             print('Máximo de 10 pedidos por entregador')
             num = int(input('Quantos pedidos deseja associar a esse entregador? '))
         else:
             print(f'Máximo de {len(pedidos_livres)} pedidos disponíveis')
             num = int(input('Quantos pedidos deseja associar a esse entregador? '))
-    i = 0
-    while i < num:
-        pedido = input(f'Digite o {i+1}º id: ')
-        for k in pedidos_livres:
-            if k['id_pedido'] == pedido:
-                orders.append(pedido)
-                k['id_entregador'] = id_ent
-                break
-        else:
+    i = 0                                       # inicia o contador para controlar a quantidade de escolhas
+    while i < num:                              # repete o bloco ate o usuario escolher a quantidade total que pediu
+        pedido = input(f'Digite o {i+1}º id: ') # recebe o ID do pedido que o usuario quer vincular
+        for k in pedidos_livres:                # percorre os pedidos livres (k é o dicionario do pedido livre)
+            if k['id_pedido'] == pedido:        # se o ID do pedido livre for igual ao ID que o usuario digitou:
+                orders.append(pedido)           # adiciona o ID digitado na lista orders
+                k['id_entregador'] = id_ent     # atualiza a chave do pedido com o ID do entregador atual
+                break                           # para o loop for de busca e vai para o proximo pedido
+        else:                                   # roda se o loop for terminar sem encontrar o ID (comando else do for)
             print('ID não existe ou já tem entregador')
-            continue
-        i += 1
-    return orders
+            continue                            # pula o restante do while e pede o mesmo numero de ID novamente
+        i += 1                                  # soma 1 no contador apenas se o ID digitado foi valido
+    return orders                               # devolve a lista orders cheia de IDs para quem chamou a funcao
 
 def disponibilidade(ped):
     tamanho = len(ped)
