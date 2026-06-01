@@ -144,7 +144,13 @@ def atualizar_pedido():
             pedido['status_pedido'] = 'Cancelado'
             print(pedido)
         case 3:
-            id_entregador = int(input('Digite o id do entregador: '))
+            if entregadores == []:
+                print("Nenhum entregador cadastrado, voltando ao menu.")
+                return
+            for i in entregadores:
+                if i['disponibilidade'] == 'disponível':
+                    print('ID do entregador:', i['id_entregador'])
+            id_entregador = input('Digite o id do entregador: ')
             pedido['id_entregador'] = id_entregador
             print(pedido)
         case 4:
@@ -190,7 +196,7 @@ def consultas():
                         else:
                             normal.append(f'{cont}º {i}')
                 for i in alta + normal:
-                    print(i)                    
+                    print(i)                  
     
             case 2:
                 for i in pedidos:
@@ -199,13 +205,12 @@ def consultas():
             case 3:
                 buscar_pedidos()
             case 4:
-                pedido = None
-
+                disponiveis = []
                 for i in entregadores:
                     if i['disponibilidade'] == 'disponível':
                         print(i)
-                    pedido = i
-                if pedido == None:
+                        disponiveis.append(i)
+                if disponiveis == []:
                     print("Não há entregadores disponíveis")
             case 5:
                  for i in entregadores:
@@ -314,7 +319,14 @@ def entregadores_pedidos(id_ent):
         print("Não há pedidos disponíveis.")
         return []
     
+    alta = []
+    normal = []
     for i in pedidos_livres:
+        if i['prioridade'] == 'Alta':
+            alta.append(i)
+        else:
+            normal.append(i)
+    for i in alta + normal:
         print('ID do pedido:', i['id_pedido'])
     
     num = int(input('Quantos pedidos deseja associar a esse entregador? '))
