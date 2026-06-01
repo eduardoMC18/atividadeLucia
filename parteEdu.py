@@ -160,7 +160,7 @@ def atualizar_pedido():
 def buscar_pedidos():
     ped = None 
     if pedidos == []:
-        print("nenhumn pedido foi cadastrado")
+        print("nenhum pedido foi cadastrado")
         return  
     busca = input('Informe o ID do Pedido: ')
     for i in pedidos:
@@ -221,6 +221,8 @@ def consultas():
                     print('Total de pedidos entregues:', numero_pedido)
             case 6:
                 pass
+            case _:
+                print("opção inválida")
 
                          
     menu_principal()
@@ -365,7 +367,14 @@ def menu_principal():
                   --------------
                   MENU PRINCIPAL
                   --------------""")
-            a = int(input('1-Cadastrar Pedidos\n2-Cadastrar Entregador\n3-Atualizar Pedidos\n4-Consultas\n5-Relatórios\n6-Fechar Sistema\n\nEscolha uma opção: '))
+            
+            print("1-Cadastrar Pedidos")
+            print("2-Cadastrar Entregador")
+            print("3-Atualizar Pedidos")
+            print("4-Consultas")
+            print("5-Relatórios")
+            print("6-Fechar Sistema")
+            a = int(input('Escolha uma opção: '))
             match a:
                 case 1:
                     cadastrar_pedido()
@@ -379,6 +388,8 @@ def menu_principal():
                     relatorios()
                 case 6:
                     break
+                case _:
+                    print("opção inválida")
         
 
 menu_principal()
