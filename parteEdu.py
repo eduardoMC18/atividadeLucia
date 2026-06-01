@@ -142,6 +142,12 @@ def atualizar_pedido():
             print(pedido)
         case 2:
             pedido['status_pedido'] = 'Cancelado'
+            for i in entregadores:
+                if pedido['id_pedido'] in i['id_pedido']:
+                    i['id_pedido'].remove(pedido['id_pedido'])
+                    i['disponibilidade'] = disponibilidade(i['id_pedido'])
+                    break
+            pedido['id_entregador'] = []
             print(pedido)
         case 3:
             if entregadores == []:
@@ -154,6 +160,11 @@ def atualizar_pedido():
             pedido['id_entregador'] = id_entregador
             print(pedido)
         case 4:
+            for i in entregadores:
+                if pedido['id_pedido'] in i['id_pedido']:
+                    i['id_pedido'].remove(pedido['id_pedido'])
+                    i['disponibilidade'] = disponibilidade(i['id_pedido'])
+                    break
             pedido['id_entregador'] = None
             print(pedido)
 
